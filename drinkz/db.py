@@ -65,12 +65,14 @@ def get_liquor_inventory():
         yield m, l
 
 def convert_to_ml(amount):
-    "Converts from oz to ml"
+    "Converts from some unit to ml"
     if("ml") in amount:
         amount = amount.strip(' ml')
         result = float(amount)
     elif("oz") in amount:
         amount = amount.strip(' oz')
         result = float(amount) * 29.5735
-
+    elif("gallon") in amount:
+        amount = amount.strip(' gallon')
+        result = float(amount) * 3785.41
     return result
