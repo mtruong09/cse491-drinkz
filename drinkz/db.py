@@ -34,10 +34,14 @@ def add_to_inventory(mfg, liquor, amount):
     if not _check_bottle_type_exists(mfg, liquor):
         err = "Missing liquor: manufacturer '%s', name '%s'" % (mfg, liquor)
         raise LiquorMissing(err)
-
-    # just add it to the inventory database as a tuple, for now.
-    _inventory_db[(mfg, liquor)] = amount
-
+    else:
+        newamount = convert_to_ml(amount)
+        if(mfg, liquor) in _inventory_db:
+            _inventory_db[(mfg, liquor)] += newamount
+        else:
+            _inventory_db[(mfg, liquor)] = newamount
+        
+        
 def check_inventory(mfg, liquor):
     for (m, l) in _inventory_db:
         if mfg == m and liquor == l:
@@ -52,9 +56,21 @@ def get_liquor_amount(mfg, liquor):
     #    if mfg == m and liquor == l:
     #        amounts.append(amount)
     amounts = _inventory_db[(mfg, liquor)]
+    
     return amounts
 
 def get_liquor_inventory():
     "Retrieve all liquor types in inventory, in tuple form: (mfg, liquor)."
     for (m, l) in _inventory_db:
         yield m, l
+
+def convert_to_ml(amount):
+    "Converts from oz to ml"
+    if("ml") in amount:
+        amount = amount.strip(' ml')
+        result = float(amount)
+    elif("oz") in amount:
+        amount = amount.strip(' oz')
+        result = float(amount) * 29.5735
+
+    return result
