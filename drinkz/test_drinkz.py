@@ -167,3 +167,38 @@ def test_get_liquor_inventory():
         x.append((mfg, liquor))
 
     assert x == [('Johnnie Walker', 'Black Label')], x
+
+def test_convert_to_ml_1():
+    db._reset_db()
+
+    x = db.convert_to_ml('1 oz')
+    assert x == 29.5735
+
+def test_convert_to_ml_2():
+    db._reset_db()
+
+    x = db.convert_to_ml('1 gallon')
+    assert x == 3785.41
+
+def test_convert_to_ml_3():
+    db._reset_db()
+
+    x = db.convert_to_ml('1 liter')
+    assert x == 1000
+
+def test_convert_to_ml_4():
+    db._reset_db()
+
+    x = db.convert_to_ml('1 ml')
+    assert x == 1
+
+def test_convert_to_ml_mixed():
+    db._reset_db()
+
+    x = db.convert_to_ml('1 oz')
+    y = db.convert_to_ml('1 gallon')
+    z = db.convert_to_ml('1 liter')
+    a = db.convert_to_ml('1 ml')
+
+    total = x + y + z + a
+    assert total == 4815.9835
