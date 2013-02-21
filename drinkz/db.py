@@ -1,21 +1,33 @@
 """
 Database functionality for drinkz information.
+
+I chose to implent using a set because using a dictionary would cause a lot of
+unnecessary set up that you don't really need. It's just as simple to pull up the ingredients using recipe.ingredients as it is to get them using a key.
 """
+
+
+from recipes import Recipe
 
 # private singleton variables at module level
 
 _bottle_types_db = set([])
 _inventory_db = {}
+_recipes_db = set()
 
 def _reset_db():
     "A method only to be used during testing -- toss the existing db info."
-    global _bottle_types_db, _inventory_db
+    global _bottle_types_db, _inventory_db, _recipes_db
     _bottle_types_db = set([])
     _inventory_db = {}
-
+    _recipes_db = set()
+    
 # exceptions in Python inherit from Exception and generally don't need to
 # override any methods.
+
 class LiquorMissing(Exception):
+    pass
+
+class DuplicateRecipeName(Exception):
     pass
 
 def add_bottle_type(mfg, liquor, typ):
@@ -75,4 +87,39 @@ def convert_to_ml(amount):
     elif("gallon") in amount:
         amount = amount.strip(' gallon')
         result = float(amount) * 3785.41
+    elif("liter") in amount:
+        amount = amount.strip(' liter')
+        result = float(amount) * 1000
+    else:
+        result = 0
     return result
+
+def check_inventory_for_type(typ):
+    "Checks the inventory to see if the type exists and \
+    returns the max amount of it"
+    amount = 0
+    for(mfg, liquor, t) in _bottle_types_db:
+        if (t == typ):
+            if(amount < get_liquor_amount(mfg, liquor)):
+                   amount = get_liquor_amount(mfg, liquor)
+    return amount
+
+            
+def add_recipe(r):
+    "Adds a recipe to the database"
+    for recipe in _recipes_db:
+        if r.name == recipe.name:
+            raise DuplicateRecipeName()
+    _recipes_db.add(r)    
+
+def get_recipe(name):
+    "Gets a recipe from the database"
+    for recipe in _recipes_db:
+        if name == recipe.name:
+            return recipe
+    return None
+        
+def get_all_recipes():
+    "Gets all recipes"
+    return list(_recipes_db)
+    

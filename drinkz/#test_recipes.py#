@@ -26,12 +26,18 @@ class TestBasicRecipeStuff(unittest.TestCase):
         assert r in x
 
     def test_add_recipe_2(self):
+        x = list(db.get_all_recipes())
         r = recipes.Recipe('scotch on the rocks', [('blended scotch',
                                                    '4 oz')])
+        print len(x)
         db.add_recipe(r)
+        print len(x)    
         r2 = recipes.Recipe('scotch on the rocks', [('vodka', '4 oz')])
         try:
             db.add_recipe(r2)
+            x = list(db.get_all_recipes())            for recipe in x:
+                print recipe.name
+                print recipe.ingredients
             assert 0, "this is a duplicate recipe and the add should fail"
         except db.DuplicateRecipeName:
             pass                        # success, we got an exception

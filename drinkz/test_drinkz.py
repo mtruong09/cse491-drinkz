@@ -150,7 +150,8 @@ def test_script_load_bottle_types_1():
 def test_script_load_liquor_inventory():
     scriptpath = 'bin/load-liquor-inventory'
     module = imp.load_source('llt', scriptpath)
-    exit_code = module.main([scriptpath, 'test-data/inventory-data.txt'])
+    exit_code = module.main([scriptpath, 'test-data/bottle-types-data-1.txt',
+                             'test-data/inventory-data-1.txt'])
 
     assert exit_code == 0, 'non zero exit code %s' % exit_code
     
