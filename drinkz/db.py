@@ -5,8 +5,8 @@ I chose to implent using a set because using a dictionary would cause a lot of
 unnecessary set up that you don't really need. It's just as simple to pull up the ingredients using recipe.ingredients as it is to get them using a key.
 """
 
-
 from recipes import Recipe
+from cPickle import dump, load
 
 # private singleton variables at module level
 
@@ -21,6 +21,27 @@ def _reset_db():
     _inventory_db = {}
     _recipes_db = set()
     
+    global _bottle_types_db, _inventory_db
+    _bottle_types_db = []
+    _inventory_db = []
+
+def save_db(filename):
+    fp = open(filename, 'wb')
+
+    tosave = (_bottle_types_db, _inventory_db)
+    dump(tosave, fp)
+
+    fp.close()
+
+def load_db(filename):
+    global _bottle_types_db, _inventory_db
+    fp = open(filename, 'rb')
+
+    loaded = load(fp)
+    (_bottle_types_db, _inventory_db) = loaded
+
+    fp.close()
+
 # exceptions in Python inherit from Exception and generally don't need to
 # override any methods.
 
