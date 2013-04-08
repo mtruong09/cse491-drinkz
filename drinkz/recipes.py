@@ -26,4 +26,3 @@ class Recipe():
                 missing.append(missingTup)
 
         return missing
-            

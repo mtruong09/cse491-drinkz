@@ -140,3 +140,15 @@ def get_all_recipes():
     "Gets all recipes"
     return list(_recipes_db)
     
+
+def get_recipes_from_inventory():
+    "Given an inventory and a list of recipes, find out which recipes we can make"
+    available_recipes = []
+
+    for recipe in _recipes_db:
+        print recipe.name
+        missing = recipe.need_ingredients()
+        if recipe.need_ingredients() == []:
+            available_recipes.append(recipe)
+
+    return available_recipes
