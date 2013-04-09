@@ -27,13 +27,13 @@ def data_reader(fp):
 
 def load_recipes(fp):
     """
-    Loads in data of the form manufacturer/liquor name/type from a CSV file.
+    Loads in data of the form name,ingredient,ingredient amt, from a CSV file.
 
     Takes a file pointer.
 
     Adds data to database.
 
-    Returns number of bottle types loaded
+    Returns number of recipes loaded
     """
     reader = data_reader(fp)
     
@@ -43,12 +43,20 @@ def load_recipes(fp):
         try:
             name = line[0]
 
-            splitline = line[1].split('/')
+            i = 1
+            ingredients = []
+            while i < len(line)-1:
+                typ = line[i]
+                amount = line[i+1]
+                ingredients.append((typ, amount))
+                i+=2
+                
+#            splitline = line[1].split('/')
 
-            i = 0
-            while i < len(splitline)-1:
-                ingredients = splitline[i].split(';')
-                i+=1
+#            i = 0
+#            while i < len(splitline)-1:
+#                ingredients = splitline[i].split(';')
+#                i+=1
 
         except:
             print "Error loading line - incorrect formatting"
