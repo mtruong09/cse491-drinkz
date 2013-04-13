@@ -1,0 +1,15 @@
+How to Bulk Load Recipes
+
+1. Create a new text file
+2. Each line in the file represents a new recipe. The line should be formatted as such:
+
+name of the recipe,ingredient1,ingredient1 amount,ingredient2,ingredient2 amount
+
+
+The following are examples of correctly formatted recipes:
+
+scotch on the rocks,blended scotch,6 oz,
+vomit inducing martini,orange juice,6 oz,vermouth,6 oz
+
+3. Navigate to the /bin directory and run: 'python2.7
+load-bulk-recipes %textfileyoucreated'

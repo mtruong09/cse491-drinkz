@@ -1,0 +1,10 @@
+Navigate to /bin
+
+Run client.py and note the host name and port number (i.e. the host
+name is 'arctic.cse.msu.edu' and the port is '9031')
+
+Run testclient.py as follows:
+
+python testclient.py %host %port
+
+i.ei python testclient.py arctic.cse.msu.edu 9031

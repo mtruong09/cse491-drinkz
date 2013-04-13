@@ -1,0 +1,42 @@
+Feautre:
+Bob wants to know if he should go to a party. He checks the average
+drink rating to see if the alcohol is up to his standards. After
+seeing that the average rating is 1.5 stars, he determines the party
+is for getting drunk, and not for casually consuming alcohol with
+friends.
+
+Data Component:
+
+You will need to keep a ratiing for eachrecipe,, most likely as a
+double. You will also need to keep a list of parties in a
+database. Parties willl need to have a list of recipes available.
+
+
+Internal API:
+
+You will need to storee and retrieve the ratings for each recip. You
+will need to store andd retrieve recipes from a party.
+
+
+Web Interafce:
+
+There should be a pagee for scheduling a party and adding recipes to
+that party. There should also be a page to allow someone (the party
+creator?) to add/edit/remove recipes.
+
+There should be a pagee to view available recipes and rate them, most
+likely using a form.
+
+Users should be able to see a list of parties with the average drink rating.
+
+
+JSON-RPC:
+
+rpc_add_party()
+rpc_add_recipe_to_party()
+rpc_remove_recipe_from_party()
+rpc_edit_recipe_of_party()
+
+rpc_rate_recipe()
+rpc_get_average_rating()
+

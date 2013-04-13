@@ -57,6 +57,12 @@ def _check_bottle_type_exists(mfg, liquor):
             return True
 
     return False
+	
+def get_liquor_types():
+	"Get the liquor types."
+	for (m, l, t) in _bottle_types_db:
+		yield m, l, t
+	
 
 def add_to_inventory(mfg, liquor, amount):
     "Add the given liquor/amount to inventory."
@@ -91,7 +97,7 @@ def get_liquor_amount(mfg, liquor):
 def get_liquor_inventory():
     "Retrieve all liquor types in inventory, in tuple form: (mfg, liquor)."
     for (m, l) in _inventory_db:
-        yield m, l
+		yield m, l
 
 def convert_to_ml(amount):
     "Converts from some unit to ml"
