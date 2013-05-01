@@ -5,7 +5,10 @@ class Recipe():
     def __init__(self, name, ingredients):
         self.name = name
         self.ingredients = ingredients    
-
+        # rating from 0 to 5
+        self.rating = 0
+        self.num_ratings = 0
+        
     def need_ingredients(self):
         "Returns a list of missing ingredients to make the recipe"
         missing = []
@@ -26,3 +29,7 @@ class Recipe():
                 missing.append(missingTup)
 
         return missing
+
+    def add_rating(self, rating):
+        self.num_ratings += 1
+        self.rating = (rating + self.rating)/self.num_ratings

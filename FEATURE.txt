@@ -7,24 +7,24 @@ friends.
 
 Data Component:
 
-You will need to keep a ratiing for eachrecipe,, most likely as a
+You will need to keep a rating for each recipe,, most likely as a
 double. You will also need to keep a list of parties in a
-database. Parties willl need to have a list of recipes available.
+database. Parties will need to have a list of recipes available.
 
 
 Internal API:
 
-You will need to storee and retrieve the ratings for each recip. You
+You will need to store and retrieve the ratings for each recip. You
 will need to store andd retrieve recipes from a party.
 
 
 Web Interafce:
 
-There should be a pagee for scheduling a party and adding recipes to
+There should be a page for scheduling a party and adding recipes to
 that party. There should also be a page to allow someone (the party
 creator?) to add/edit/remove recipes.
 
-There should be a pagee to view available recipes and rate them, most
+There should be a page to view available recipes and rate them, most
 likely using a form.
 
 Users should be able to see a list of parties with the average drink rating.

@@ -2,10 +2,10 @@
 Tests HW5 features
 """
 
-import unittest, StringIO
-from . import db, recipes, load_bulk_recipes
+import unittest, StringIO, simplejson
+from . import db, recipes, load_bulk_recipes, app
 
-def test_get_recipes_from_inventory():
+def initialize_db():
     db._reset_db()
 
     db.add_bottle_type('Johnnie Walker', 'black label', 'blended scotch')
@@ -35,12 +35,13 @@ def test_get_recipes_from_inventory():
                                                    '1.5 oz')])
     db.add_recipe(r)
 
+def test_get_recipes_from_inventory():
+    initialize_db()
     available = db.get_recipes_from_inventory()
-    print len(available)
     assert len(available) == 2
 
-    assert available[0].name == 'scotch on the rocks'
-    assert available[1].name == 'vodka martini'
+    assert available[1].name == 'scotch on the rocks'
+    assert available[0].name == 'vodka martini'
 
 # Test if it will not add an empty line
 def test_bulk_load_recipes_empty_line():
@@ -72,6 +73,63 @@ def test_bulk_load_inventory_pound():
     
     #nothing in database
     assert n == 0, n
-                                                            
 
-                            
+def test_rpc_add_to_inventory():
+
+    initialize_db()
+    myApp = app.SimpleApp()
+        
+
+    environ = {}
+    environ['REQUEST_METHOD'] = 'POST'
+    environ['PATH_INFO'] = '/rpc'
+    
+
+    d = dict(method='add_to_inventory', params=['Gray Goose','vodka', '10 oz'] ,id=1)
+    encoded = simplejson.dumps(d)
+    environ['wsgi.input'] = StringIO.StringIO(encoded)
+    environ['CONTENT_LENGTH'] = 1000
+    
+    def my_start_response(s, h, return_in=d):
+        d['status'] = s
+        d['headers'] = h
+        
+    results = myApp.__call__(environ,my_start_response)
+    text = "".join(results)
+
+    print text
+    assert db.check_inventory('Gray Goose', 'vodka') == True
+    amt = db.get_liquor_amount('Gray Goose', 'vodka')
+    print amt
+    assert amt == "1295.735"
+    
+def test_rpc_add_recipe():
+
+    initialize_db()
+    myApp = app.SimpleApp()
+    
+    
+    environ = {}
+    environ['REQUEST_METHOD'] = 'POST'
+    environ['PATH_INFO'] = '/rpc'
+    
+
+    d = dict(method='add_recipe', params=["Screw Driver","Orange Juice,8 oz,Vodka,1 oz"] ,id=1)
+    encoded = simplejson.dumps(d)
+    environ['wsgi.input'] = StringIO.StringIO(encoded)
+    environ['CONTENT_LENGTH'] = 1000
+    
+    def my_start_response(s, h, return_in=d):
+        d['status'] = s
+        d['headers'] = h
+        
+    results = myApp.__call__(environ,my_start_response)
+    text = "".join(results)
+    
+    assert text.find("Screw Driver") != -1, text
+    
+
+                                                                
+                    
+    
+    
